@@ -1,4 +1,4 @@
 hang-out-core
 =============
 
-The Hang Out Mobile pp kernel
+The Hang Out Mobile App kernel
