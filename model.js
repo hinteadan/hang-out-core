@@ -38,7 +38,7 @@
         this.confirmedMembers = [];
         this.title = title || null;
         this.description = description || null;
-        this.startsOn = startsOn || new Date().getTime();
+        this.startsOn = startsOn;
         this.startsOnFormatted = function () {
             return !this.startsOn ? '' : parseToMoment(this.startsOn).format(defaultDateFormat);
         };
