@@ -45,11 +45,13 @@
             });
         }
 
-        function fetchJoinableActivities(then) {
+        function fetchJoinableActivities(initiatorEmail, then) {
             var query = new ds.queryWithAnd()
+                .whereNot('initiator')(ds.is.EqualTo)(initiatorEmail)
                 .where('startsOn')(ds.is.HigherThan)(new Date().getTime())
                 .where('isCancelled')(ds.is.EqualTo)(false)
                 .where('isWrapped')(ds.is.EqualTo)(false);
+
             activityStore.Query(query, function (result) {
                 ///<param name="result" type="ds.OperationResult" />
                 if (angular.isFunction(then)) {
