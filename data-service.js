@@ -45,9 +45,10 @@
             });
         }
 
-        function fetchJoinableActivities(initiatorEmail, then) {
+        function fetchJoinableActivities(currentUserEmail, then) {
             var query = new ds.queryWithAnd()
-                .whereNot('initiator')(ds.is.EqualTo)(initiatorEmail)
+                .whereNot('initiator')(ds.is.EqualTo)(currentUserEmail)
+                .whereNot('participants')(ds.is.Containing)(currentUserEmail)
                 .where('startsOn')(ds.is.HigherThan)(new Date().getTime())
                 .where('isCancelled')(ds.is.EqualTo)(false)
                 .where('isWrapped')(ds.is.EqualTo)(false);
