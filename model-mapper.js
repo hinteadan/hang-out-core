@@ -50,6 +50,12 @@
             }));
         };
 
+        this.place = function (dto) {
+            return constructFromDto(dto, new ConstructorInfo(m.Place, {
+                location: new ConstructorInfo(m.GpsLocation)
+            }));
+        };
+
     }]);
 
 }).call(this, this.angular, this._);
