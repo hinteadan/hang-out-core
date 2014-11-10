@@ -29,6 +29,7 @@
         this.details = details || null;
         this.websiteUrl = websiteUrl || null;
         this.location = location || GpsLocation.unknown;
+        this.tags = [];
     }
     Place.unknown = new Place();
 
@@ -48,6 +49,7 @@
         this.cancellationReason = null;
         this.bailAudit = [];
         this.unWrapAudit = [];
+        this.tags = [];
         this.endsOnFormatted = function () {
             return !this.endsOn ? '' : parseToMoment(this.endsOn).format(defaultDateFormat);
         };
