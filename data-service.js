@@ -22,6 +22,15 @@
             };
         }
 
+        function mapActivityEntry(activityEntity) {
+            return {
+                id: activityEntity.Id,
+                token: activityEntity.CheckTag,
+                activity: map.activity(activityEntity.Data),
+                startsOn: activityEntity.Data.startsOn
+            };
+        }
+
         function persistUpdatedActivity(id, token, activity, then) {
             var entity = new ds.Entity(activity, activity.meta());
             entity.Id = id;
@@ -58,12 +67,7 @@
                 if (angular.isFunction(then)) {
                     var activities = !result.isSuccess ? [] : _.map(result.data, function (entity) {
                         ///<param name="entity" type="ds.Entity" />
-                        return {
-                            id: entity.Id,
-                            token: entity.CheckTag,
-                            activity: map.activity(entity.Data),
-                            startsOn: entity.Data.startsOn
-                        };
+                        return mapActivityEntry(entity);
                     });
                     then.call(result, activities, result.isSuccess, result.reason);
                 }
@@ -91,12 +95,7 @@
                 if (angular.isFunction(then)) {
                     var activities = !result.isSuccess ? [] : _.map(result.data, function (entity) {
                         ///<param name="entity" type="ds.Entity" />
-                        return {
-                            id: entity.Id,
-                            token: entity.CheckTag,
-                            activity: map.activity(entity.Data),
-                            startsOn: entity.Data.startsOn
-                        };
+                        return mapActivityEntry(entity);
                     });
                     then.call(result, activities, result.isSuccess, result.reason);
                 }
@@ -110,12 +109,7 @@
                 if (angular.isFunction(then)) {
                     var activities = !result.isSuccess ? [] : _.map(result.data, function (entity) {
                         ///<param name="entity" type="ds.Entity" />
-                        return {
-                            id: entity.Id,
-                            token: entity.CheckTag,
-                            activity: map.activity(entity.Data),
-                            startsOn: entity.Data.startsOn
-                        };
+                        return mapActivityEntry(entity);
                     });
                     then.call(result, activities, result.isSuccess, result.reason);
                 }
