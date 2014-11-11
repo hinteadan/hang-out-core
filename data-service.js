@@ -54,6 +54,16 @@
             });
         }
 
+        function loadActivity(id, then) {
+            activityStore.Load(id, function (result) {
+                ///<param name="result" type="ds.OperationResult" />
+                var activity = mapActivityEntry(result.data);
+                if (angular.isFunction(then)) {
+                    then.call(result, activity, result.isSuccess, result.reason);
+                }
+            });
+        }
+
         function fetchJoinableActivities(currentUserEmail, then) {
             var query = new ds.queryWithAnd()
                 .whereNot('initiator')(ds.is.EqualTo)(currentUserEmail)
@@ -163,6 +173,7 @@
             persistUpdatedActivity(id, token, activity, then);
         }
 
+        this.activity = as$q(loadActivity);
         this.publishNewActivity = as$q(storeActivity);
         this.activitiesToJoin = as$q(fetchJoinableActivities);
         this.joinActivity = as$q(joinActivity);
