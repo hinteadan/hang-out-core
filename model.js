@@ -30,6 +30,9 @@
         this.websiteUrl = websiteUrl || null;
         this.location = location || GpsLocation.unknown;
         this.tags = [];
+        this.isUnknown = function () {
+            return !this.name && !this.address && !this.details && !this.location.lat;
+        };
     }
     Place.unknown = new Place();
 
