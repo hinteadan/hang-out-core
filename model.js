@@ -77,6 +77,9 @@
             }
             return _.any(this.confirmedMembers, function (p) { return p.email === member.email; });
         };
+        this.isInitiator = function (dude) {
+            return this.initiator.email === dude.email;
+        };
         this.joinMember = function (member) {
             if (this.hasParticipant(member) || this.isWrapped) {
                 return;
