@@ -15,6 +15,9 @@
         this.name = name || null;
         this.email = email || null;
         this.profileUrl = profileUrl || null;
+        this.is = function (me) {
+            return me.email === this.email;
+        };
     }
 
     function GpsLocation(lat, lng) {
