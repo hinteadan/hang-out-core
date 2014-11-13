@@ -92,6 +92,10 @@
                 return;
             }
             this.pendingMembers.push(member);
+
+            if (this.isMemberInstantlyConfirmed === true) {
+                this.confirmMember(member);
+            }
         };
         this.confirmMember = function (member) {
             if (!this.hasParticipant(member)) {
