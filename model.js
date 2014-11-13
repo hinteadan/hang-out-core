@@ -65,6 +65,9 @@
             if (this.isWrapped) { return 'Confirmed'; }
             return 'Still pending';
         };
+        this.isPending = function () {
+            return !this.isWrapped && !this.isCancelled;
+        };
         this.allParticipants = function () {
             return _.union([this.initiator], this.pendingMembers);
         };
