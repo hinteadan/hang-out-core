@@ -52,6 +52,7 @@
         this.endsOn = endsOn;
         this.isWrapped = false;
         this.isCancelled = false;
+        this.isMemberInstantlyConfirmed = false;
         this.cancellationReason = null;
         this.bailAudit = [];
         this.unWrapAudit = [];
@@ -143,6 +144,7 @@
                 endsOn: this.endsOn,
                 isWrapped: this.isWrapped,
                 isCancelled: this.isCancelled,
+                isMemberInstantlyConfirmed: this.isMemberInstantlyConfirmed,
                 placeName: this.place.name,
                 placeAddress: this.place.address,
                 placeLocationLat: this.place.location.lat,
