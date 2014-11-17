@@ -23,6 +23,9 @@
     function GpsLocation(lat, lng) {
         this.lat = lat || 0;
         this.lng = lng || 0;
+        this.isUnknown = function () {
+            return this.lat === 0 && this.lng === 0;
+        };
     }
     GpsLocation.unknown = new GpsLocation();
 
