@@ -56,6 +56,10 @@
             }));
         };
 
+        this.user = function (dto) {
+            return constructFromDto(dto, new ConstructorInfo(m.Individual));
+        };
+
     }]);
 
 }).call(this, this.angular, this._);

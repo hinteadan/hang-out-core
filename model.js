@@ -1,7 +1,8 @@
 ﻿(function (angular, moment, _) {
     'use strict';
 
-    var defaultDateFormat = 'D MMM YYYY, HH:mm';
+    var defaultDateFormat = 'D MMM YYYY, HH:mm',
+        md5 = angular.injector(['ng', 'angular-md5']).get('md5');
 
     function parseToMoment(input) {
         var mDate = moment(input);
@@ -17,6 +18,15 @@
         this.profileUrl = profileUrl || null;
         this.is = function (me) {
             return me.email === this.email;
+        };
+        this.emailHash = function () {
+            if (!this.email) {
+                return null;
+            }
+            return md5.createHash(this.email.trim().toLowerCase());
+        };
+        this.gravatarProfileImageUrl = function (size) {
+            return 'http://www.gravatar.com/avatar/' + this.emailHash() + '?s=' + (Number(size) || 80);
         };
     }
 
