@@ -28,6 +28,9 @@
         this.gravatarProfileImageUrl = function (size) {
             return 'http://www.gravatar.com/avatar/' + this.emailHash() + '?s=' + (Number(size) || 80);
         };
+        this.friendlyName = function () {
+            return this.name ? this.name + '[' + this.email + ']' : this.email;
+        };
     }
 
     function GpsLocation(lat, lng) {
@@ -80,6 +83,9 @@
             if (this.isCancelled) { return 'Cancelled, quoting: "' + this.cancellationReason + '"'; }
             if (this.isWrapped) { return 'Confirmed'; }
             return 'Still pending';
+        };
+        this.friendlyTitle = function () {
+            return this.title + ' initiated by ' + this.initiator.friendlyName() + ' starting on ' + this.startsOnFormatted();
         };
         this.isPending = function () {
             return !this.isWrapped && !this.isCancelled;
