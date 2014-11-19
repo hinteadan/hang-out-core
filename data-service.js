@@ -99,7 +99,10 @@
         }
 
         function fetchActivitiesFor(dude, then) {
-            var query = new ds.queryWithAnd().where('initiator')(ds.is.EqualTo)(dude.email);
+            var query = new ds.queryWithAnd()
+                .where('initiator')(ds.is.EqualTo)(dude.email)
+                .where('startsOn')(ds.is.HigherThan)(new Date().getTime())
+                .where('isCancelled')(ds.is.EqualTo)(false);
             activityStore.Query(query, function (result) {
                 ///<param name="result" type="ds.OperationResult" />
                 if (angular.isFunction(then)) {
@@ -113,7 +116,10 @@
         }
 
         function fetchActivitiesForParticipant(dude, then) {
-            var query = new ds.queryWithAnd().where('participants')(ds.is.Containing)(dude.email);
+            var query = new ds.queryWithAnd()
+                .where('participants')(ds.is.Containing)(dude.email)
+                .where('startsOn')(ds.is.HigherThan)(new Date().getTime())
+                .where('isCancelled')(ds.is.EqualTo)(false);
             activityStore.Query(query, function (result) {
                 ///<param name="result" type="ds.OperationResult" />
                 if (angular.isFunction(then)) {
