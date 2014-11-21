@@ -16,6 +16,7 @@
         this.name = name || null;
         this.email = email || null;
         this.profileUrl = profileUrl || null;
+        this.avatarImageUrl = null;
         this.is = function (me) {
             return me.email === this.email;
         };
@@ -30,6 +31,13 @@
         };
         this.friendlyName = function () {
             return this.name ? this.name + '[' + this.email + ']' : this.email;
+        };
+        this.setAvatar = function (url) {
+            this.avatarImageUrl = url;
+            return this;
+        };
+        this.avatar = function (size) {
+            return this.avatarImageUrl || this.gravatarProfileImageUrl(size);
         };
     }
 
