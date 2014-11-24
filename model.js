@@ -79,6 +79,7 @@
         this.isWrapped = false;
         this.isCancelled = false;
         this.isMemberInstantlyConfirmed = false;
+        this.maxInstantConfirms = 0;
         this.cancellationReason = null;
         this.bailAudit = [];
         this.unWrapAudit = [];
@@ -122,7 +123,7 @@
             }
             this.pendingMembers.push(member);
 
-            if (this.isMemberInstantlyConfirmed === true) {
+            if (this.isMemberInstantlyConfirmed === true && this.confirmedMembers.length < this.maxInstantConfirms) {
                 this.confirmMember(member);
             }
         };

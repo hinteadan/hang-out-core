@@ -45,6 +45,7 @@
         }
 
         function storeActivity(activity, then) {
+            activity.maxInstantConfirms = activity.isMemberInstantlyConfirmed ? Number(activity.maxInstantConfirms) : 0;
             var entity = new ds.Entity(activity, activity.meta());
             activityStore.Save(entity, function (result) {
                 ///<param name="result" type="ds.OperationResult" />
