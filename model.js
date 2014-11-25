@@ -69,7 +69,7 @@
         this.confirmedMembers = [];
         this.title = title || null;
         this.description = description || null;
-        this.imageUrl = null;
+        this.imageUrls = [];
         this.logoUrl = null;
         this.startsOn = startsOn;
         this.startsOnFormatted = function () {
