@@ -117,6 +117,12 @@
         this.isInitiator = function (dude) {
             return this.initiator.email === dude.email;
         };
+        this.isFull = function () {
+            if (this.maxInstantConfirms <= 0) {
+                return false;
+            }
+            return this.confirmedMembers.length >= this.maxInstantConfirms;
+        };
         this.joinMember = function (member) {
             if (this.hasParticipant(member) || this.isWrapped) {
                 return;
