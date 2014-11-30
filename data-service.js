@@ -180,6 +180,17 @@
             persistUpdatedActivity(id, token, activity, then);
         }
 
+        function changeActivityDescription(id, token, activity, newDescription, then) {
+            if (!newDescription || activity.description === newDescription) {
+                if (angular.isFunction(then)) {
+                    then.call(new ds.OperationResult(false, 'The new description is empty or it hasn\'t really changed'), null, false, 'The new description is empty or it hasn\'t really changed');
+                }
+                return;
+            }
+            activity.description = newDescription;
+            persistUpdatedActivity(id, token, activity, then);
+        }
+
         this.activity = as$q(loadActivity);
         this.publishNewActivity = as$q(storeActivity);
         this.activitiesToJoin = as$q(fetchJoinableActivities);
@@ -190,7 +201,7 @@
         this.wrapActivity = as$q(wrapActivity);
         this.cancelActivity = as$q(cancelActivity);
         this.bailOut = as$q(bailOutParticipantFromActivity);
-
+        this.changeDescription = as$q(changeActivityDescription);
     }]);
 
 }).call(this, this.angular, this.H.DataStore, this._);
