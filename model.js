@@ -13,6 +13,7 @@
     }
 
     function Individual(name, email, profileUrl) {
+        var emailHash = null;
         this.name = name || null;
         this.email = email || null;
         this.profileUrl = profileUrl || null;
@@ -24,10 +25,17 @@
             if (!this.email) {
                 return null;
             }
-            return md5.createHash(this.email.trim().toLowerCase());
+            if (emailHash) {
+                return emailHash;
+            }
+            emailHash = md5.createHash(this.email.trim().toLowerCase());
+            return emailHash;
         };
         this.gravatarProfileImageUrl = function (size) {
-            return 'http://www.gravatar.com/avatar/' + this.emailHash() + '?s=' + (Number(size) || 80);
+            return 'http://www.gravatar.com/avatar/' + this.emailHash() + '?d=identicon&s=' + (Number(size) || 80);
+        };
+        this.gravatarProfileUrl = function () {
+            return 'http://www.gravatar.com/' + this.emailHash();
         };
         this.friendlyName = function () {
             return this.name ? this.name + '[' + this.email + ']' : this.email;
@@ -38,6 +46,13 @@
         };
         this.avatar = function (size) {
             return this.avatarImageUrl || this.gravatarProfileImageUrl(size);
+        };
+        this.setProfileUrl = function (url) {
+            this.profileUrl = url;
+            return this;
+        };
+        this.profile = function () {
+            return this.profileUrl || this.gravatarProfileUrl();
         };
     }
 
