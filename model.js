@@ -91,6 +91,12 @@
             return !this.startsOn ? '' : parseToMoment(this.startsOn).format(defaultDateFormat);
         };
         this.endsOn = endsOn;
+        this.durationFormatted = function () {
+            if (!this.endsOn) {
+                return '';
+            }
+            return moment.duration(this.endsOn - this.startsOn).humanize();
+        };
         this.isWrapped = false;
         this.isCancelled = false;
         this.isMemberInstantlyConfirmed = false;
