@@ -6,6 +6,14 @@
 
         var activityStore = new ds.Store(storeName.activities, storeUrl);
 
+        function tryToBroadcastRealtime(doThis) {
+            if (realtime.isAvailable()) {
+                realtime.bind().then(function (api) {
+                    doThis.call(api, api);
+                });
+            }
+        }
+
         function as$q(fn) {
             ///<param name="fn" type="Function" />
             return function () {
@@ -42,7 +50,7 @@
                     then.call(result, result.data, result.isSuccess, result.reason);
                 }
             });
-            return entity;
+            tryToBroadcastRealtime(function (api) { api.announceEntityChange(entity); });
         }
 
         function storeActivity(activity, then) {
@@ -54,6 +62,7 @@
                     then.call(result, result.data, result.isSuccess, result.reason);
                 }
             });
+            tryToBroadcastRealtime(function (api) { api.announceEntityCreated(entity); });
         }
 
         function loadActivity(id, then) {
@@ -189,12 +198,7 @@
                 return;
             }
             activity.description = newDescription;
-            var activityEntity = persistUpdatedActivity(id, token, activity, then);
-            if (realtime.isAvailable()) {
-                realtime.bind().then(function (api) {
-                    api.announceEntityChange(activityEntity);
-                });
-            }
+            persistUpdatedActivity(id, token, activity, then);
         }
 
         this.activity = as$q(loadActivity);

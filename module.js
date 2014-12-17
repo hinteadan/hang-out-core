@@ -1,4 +1,4 @@
-﻿(function (angular) {
+﻿(function (angular, $) {
     'use strict';
 
     angular.module('hang-out', ['angular-md5'])
@@ -12,4 +12,4 @@
         $('body').append('<script src="' + storeUrl + rootPath + '/hubs" type="text/javascript"></script>');
     }]);
 
-}).call(this, this.angular);
+}).call(this, this.angular, this.jQuery);
