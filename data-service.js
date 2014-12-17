@@ -46,11 +46,11 @@
 
             activityStore.Save(entity, function (result) {
                 ///<param name="result" type="ds.OperationResult" />
+                tryToBroadcastRealtime(function (api) { api.announceEntityChange(result.data); });
                 if (angular.isFunction(then)) {
                     then.call(result, result.data, result.isSuccess, result.reason);
                 }
             });
-            tryToBroadcastRealtime(function (api) { api.announceEntityChange(entity); });
         }
 
         function storeActivity(activity, then) {
@@ -58,11 +58,11 @@
             var entity = new ds.Entity(activity, activity.meta());
             activityStore.Save(entity, function (result) {
                 ///<param name="result" type="ds.OperationResult" />
+                tryToBroadcastRealtime(function (api) { api.announceEntityCreated(result.data); });
                 if (angular.isFunction(then)) {
                     then.call(result, result.data, result.isSuccess, result.reason);
                 }
             });
-            tryToBroadcastRealtime(function (api) { api.announceEntityCreated(entity); });
         }
 
         function loadActivity(id, then) {
