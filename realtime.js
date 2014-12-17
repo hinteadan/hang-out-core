@@ -61,10 +61,9 @@
             realtime = $.connection.entityHub;
             $.connection.hub.url = storeUrl + rootPath;
             $.connection.hub.start().done(function () {
-                console.info('Connected to Real-time hub');
+                realtimeApi = new RealtimeApi(realtime.server);
+                deff.resolve(realtimeApi);
             });
-
-            realtimeApi = new RealtimeApi(realtime.server);
 
             realtime.client.entityChanged = function (e) { realtimeApi.handle('onChange', e); };
             realtime.client.entityCreated = function (e) { realtimeApi.handle('onCreate', e); };
@@ -74,7 +73,6 @@
         function tryInitialize() {
             if (areHubsLoaded()) {
                 initialize();
-                deff.resolve(realtimeApi);
                 return;
             }
             else if (retryCount === retryMax) {
