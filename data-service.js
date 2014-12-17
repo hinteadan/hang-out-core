@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('hang-out')
-    .service('dataStore', ['$q', 'storeUrl', 'storeName', 'model-mapper', function ($q, storeUrl, storeName, map) {
+    .service('dataStore', ['$q', 'storeUrl', 'storeName', 'model-mapper', 'hangOutRealtime', function ($q, storeUrl, storeName, map, realtime) {
 
         var activityStore = new ds.Store(storeName.activities, storeUrl);
 
@@ -42,6 +42,7 @@
                     then.call(result, result.data, result.isSuccess, result.reason);
                 }
             });
+            return entity;
         }
 
         function storeActivity(activity, then) {
@@ -188,7 +189,10 @@
                 return;
             }
             activity.description = newDescription;
-            persistUpdatedActivity(id, token, activity, then);
+            var activityEntity = persistUpdatedActivity(id, token, activity, then);
+            if (realtime.isAvailable()) {
+                realtime.api().announceEntityChange(activityEntity);
+            }
         }
 
         this.activity = as$q(loadActivity);
