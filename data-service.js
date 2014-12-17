@@ -191,7 +191,9 @@
             activity.description = newDescription;
             var activityEntity = persistUpdatedActivity(id, token, activity, then);
             if (realtime.isAvailable()) {
-                realtime.api().announceEntityChange(activityEntity);
+                realtime.bind().then(function (api) {
+                    api.announceEntityChange(activityEntity);
+                });
             }
         }
 
