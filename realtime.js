@@ -47,7 +47,7 @@
 
         var realtime = null,
             retryCount = 0,
-            retryMax = 10,
+            retryMax = 20,
             retryIn = 500,
             realtimeApi = null,
             deff = $q.defer();
@@ -72,6 +72,7 @@
 
         function tryInitialize() {
             if (areHubsLoaded()) {
+                retryIn = 500;
                 initialize();
                 return;
             }
@@ -80,6 +81,7 @@
                 return;
             }
             retryCount++;
+            retryIn *= Math.floor(retryCount / 3) || 1;
             $t(tryInitialize, retryIn);
         }
         tryInitialize();
