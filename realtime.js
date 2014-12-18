@@ -58,16 +58,18 @@
         }
 
         function initialize() {
+            realtimeApi = null;
             realtime = $.connection.entityHub;
+
+            realtime.client.entityChanged = function (e) { realtimeApi.handle('onChange', e); };
+            realtime.client.entityCreated = function (e) { realtimeApi.handle('onCreate', e); };
+            realtime.client.entityRemoved = function (e) { realtimeApi.handle('onDelete', e); };
+
             $.connection.hub.url = storeUrl + rootPath;
             $.connection.hub.start().done(function () {
                 realtimeApi = new RealtimeApi(realtime.server);
                 deff.resolve(realtimeApi);
             });
-
-            realtime.client.entityChanged = function (e) { realtimeApi.handle('onChange', e); };
-            realtime.client.entityCreated = function (e) { realtimeApi.handle('onCreate', e); };
-            realtime.client.entityRemoved = function (e) { realtimeApi.handle('onDelete', e); };
         }
 
         function tryInitialize() {
