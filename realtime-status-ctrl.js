@@ -8,7 +8,8 @@
                 disconnected: 0,
                 connecting: 1,
                 connected: 2
-            };
+            },
+            literals = ['disconnected', 'connecting', 'connected'];
 
         function initialize() {
             $s.state = status.connecting;
@@ -21,6 +22,9 @@
 
         $s.status = status;
         $s.state = status.disconnected;
+        $s.literalState = function () {
+            return literals[$s.state];
+        };
 
         initialize();
     }]);
