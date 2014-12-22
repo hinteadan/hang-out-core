@@ -38,7 +38,7 @@
             return 'http://www.gravatar.com/' + this.emailHash();
         };
         this.friendlyName = function () {
-            return this.name ? this.name + '[' + this.email + ']' : this.email;
+            return this.name ? this.name : this.email;
         };
         this.setAvatar = function (url) {
             this.avatarImageUrl = url;
