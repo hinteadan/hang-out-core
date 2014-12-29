@@ -95,6 +95,23 @@
             });
         }
 
+        function fetchPastActivities(then) {
+            var query = new ds.queryWithAnd()
+                .where('startsOn')(ds.is.LowerThanOrEqualTo)(new Date().getTime())
+                .where('isCancelled')(ds.is.EqualTo)(false);
+
+            activityStore.Query(query, function (result) {
+                ///<param name="result" type="ds.OperationResult" />
+                if (angular.isFunction(then)) {
+                    var activities = !result.isSuccess ? [] : _.map(result.data, function (entity) {
+                        ///<param name="entity" type="ds.Entity" />
+                        return mapActivityEntry(entity);
+                    });
+                    then.call(result, activities, result.isSuccess, result.reason);
+                }
+            });
+        }
+
         function joinActivity(id, token, activity, individual, then) {
             if (activity.hasParticipant(individual)) {
                 if (angular.isFunction(then)) {
@@ -204,6 +221,7 @@
         this.activity = as$q(loadActivity);
         this.publishNewActivity = as$q(storeActivity);
         this.activitiesToJoin = as$q(fetchJoinableActivities);
+        this.pastActivities = as$q(fetchPastActivities);
         this.joinActivity = as$q(joinActivity);
         this.activitiesFor = as$q(fetchActivitiesFor);
         this.activitiesAppliedToFor = as$q(fetchActivitiesForParticipant);
