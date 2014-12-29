@@ -97,6 +97,9 @@
             }
             return moment.duration(this.endsOn - this.startsOn).humanize();
         };
+        this.isPast = function () {
+            return this.startsOn <= new Date().getTime();
+        };
         this.isWrapped = false;
         this.isCancelled = false;
         this.isMemberInstantlyConfirmed = false;
