@@ -16,6 +16,7 @@
         var emailHash = null;
         this.name = name || null;
         this.email = email || null;
+        this.passwordHash = null;
         this.profileUrl = profileUrl || null;
         this.avatarImageUrl = null;
         this.is = function (me) {
@@ -53,6 +54,10 @@
         };
         this.profile = function () {
             return this.profileUrl || this.gravatarProfileUrl();
+        };
+        this.setPasswordHash = function (hash) {
+            this.passwordHash = hash;
+            return this;
         };
 
         this.meta = function () {
