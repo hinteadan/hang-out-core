@@ -4,7 +4,8 @@
     angular.module('hang-out')
     .service('dataStore', ['$q', 'storeUrl', 'storeName', 'model-mapper', 'hangOutRealtime', function ($q, storeUrl, storeName, map, realtime) {
 
-        var activityStore = new ds.Store(storeName.activities, storeUrl);
+        var activityStore = new ds.Store(storeName.activities, storeUrl),
+            userStore = new ds.Store(storeName.users, storeUrl);
 
         function tryToBroadcastRealtime(doThis) {
             if (realtime.isAvailable()) {
@@ -218,6 +219,17 @@
             persistUpdatedActivity(id, token, activity, then);
         }
 
+        function fetchUserByEmail(email, then) {
+            var query = new ds.queryWithAnd().where('email')(ds.is.EqualTo)(email);
+            userStore.Query(query, function (result) {
+                ///<param name="result" type="ds.OperationResult" />
+                if (angular.isFunction(then)) {
+                    var user = !result.isSuccess || !result.data.length ? null : map.user(result.data);
+                    then.call(result, user, result.isSuccess, result.reason);
+                }
+            });
+        }
+
         this.activity = as$q(loadActivity);
         this.publishNewActivity = as$q(storeActivity);
         this.activitiesToJoin = as$q(fetchJoinableActivities);
@@ -230,6 +242,8 @@
         this.cancelActivity = as$q(cancelActivity);
         this.bailOut = as$q(bailOutParticipantFromActivity);
         this.changeDescription = as$q(changeActivityDescription);
+
+        this.userViaEmail = as$q(fetchUserByEmail);
     }]);
 
 }).call(this, this.angular, this.H.DataStore, this._);

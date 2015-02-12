@@ -54,6 +54,14 @@
         this.profile = function () {
             return this.profileUrl || this.gravatarProfileUrl();
         };
+
+        this.meta = function () {
+            return {
+                name: this.name,
+                email: this.email,
+                profileUrl: this.profileUrl
+            };
+        };
     }
 
     function GpsLocation(lat, lng) {
