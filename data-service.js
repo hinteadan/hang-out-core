@@ -224,7 +224,7 @@
             userStore.Query(query, function (result) {
                 ///<param name="result" type="ds.OperationResult" />
                 if (angular.isFunction(then)) {
-                    var user = !result.isSuccess || !result.data.length ? null : map.user(result.data);
+                    var user = !result.isSuccess || !result.data.length ? null : map.user(result.data.Data);
                     then.call(result, user, result.isSuccess, result.reason);
                 }
             });
@@ -235,6 +235,15 @@
                 ///<param name="result" type="ds.OperationResult" />
                 if (angular.isFunction(then)) {
                     then.call(result, result.data, result.isSuccess, result.reason);
+                }
+            });
+        }
+
+        function validateRegistration(clientId, token, then) {
+            new ds.Validation().Validate(token, clientId, function (result) {
+                ///<param name="result" type="ds.OperationResult" />
+                if (angular.isFunction(then)) {
+                    then.call(result, result.data ? map.user(result.data.Data) : null, result.isSuccess, result.reason);
                 }
             });
         }
@@ -254,6 +263,7 @@
 
         this.userViaEmail = as$q(fetchUserByEmail);
         this.queueRegistration = as$q(queueUserForRegistration);
+        this.validateRegistration = as$q(validateRegistration);
 
     }]);
 
