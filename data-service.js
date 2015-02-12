@@ -5,7 +5,8 @@
     .service('dataStore', ['$q', 'storeUrl', 'storeName', 'model-mapper', 'hangOutRealtime', function ($q, storeUrl, storeName, map, realtime) {
 
         var activityStore = new ds.Store(storeName.activities, storeUrl),
-            userStore = new ds.Store(storeName.users, storeUrl);
+            userStore = new ds.Store(storeName.users, storeUrl),
+            validationStore = new ds.Validation(storeUrl);
 
         function tryToBroadcastRealtime(doThis) {
             if (realtime.isAvailable()) {
@@ -231,7 +232,7 @@
         }
 
         function queueUserForRegistration(individual, clientId, then) {
-            new ds.Validation().QueueForValidation(new ds.Entity(individual, individual.meta()), storeName.users, clientId, function (result) {
+            validationStore.QueueForValidation(new ds.Entity(individual, individual.meta()), storeName.users, clientId, function (result) {
                 ///<param name="result" type="ds.OperationResult" />
                 if (angular.isFunction(then)) {
                     then.call(result, result.data, result.isSuccess, result.reason);
@@ -240,7 +241,7 @@
         }
 
         function validateRegistration(clientId, token, then) {
-            new ds.Validation().Validate(token, clientId, function (result) {
+            validationStore.Validate(token, clientId, function (result) {
                 ///<param name="result" type="ds.OperationResult" />
                 if (angular.isFunction(then)) {
                     then.call(result, result.data ? map.user(result.data.Data) : null, result.isSuccess, result.reason);
