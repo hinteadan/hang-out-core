@@ -224,7 +224,7 @@
             userStore.Query(query, function (result) {
                 ///<param name="result" type="ds.OperationResult" />
                 if (angular.isFunction(then)) {
-                    var user = !result.isSuccess || !result.data.length ? null : map.user(result.data.Data);
+                    var user = !result.isSuccess || !result.data.length ? null : map.user(result.data[0].Data);
                     then.call(result, user, result.isSuccess, result.reason);
                 }
             });
