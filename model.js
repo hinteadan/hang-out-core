@@ -64,6 +64,7 @@
             return {
                 name: this.name,
                 email: this.email,
+                passwordHash: this.passwordHash,
                 profileUrl: this.profileUrl
             };
         };
