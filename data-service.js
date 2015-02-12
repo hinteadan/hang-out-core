@@ -230,6 +230,15 @@
             });
         }
 
+        function queueUserForRegistration(individual, clientId, then) {
+            new ds.Validation().QueueForValidation(new ds.Entity(individual, individual.meta()), storeName.users, clientId, function (result) {
+                ///<param name="result" type="ds.OperationResult" />
+                if (angular.isFunction(then)) {
+                    then.call(result, result.data, result.isSuccess, result.reason);
+                }
+            });
+        }
+
         this.activity = as$q(loadActivity);
         this.publishNewActivity = as$q(storeActivity);
         this.activitiesToJoin = as$q(fetchJoinableActivities);
@@ -244,6 +253,8 @@
         this.changeDescription = as$q(changeActivityDescription);
 
         this.userViaEmail = as$q(fetchUserByEmail);
+        this.queueRegistration = as$q(queueUserForRegistration);
+
     }]);
 
 }).call(this, this.angular, this.H.DataStore, this._);
