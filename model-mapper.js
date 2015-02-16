@@ -60,6 +60,10 @@
             return constructFromDto(dto, new ConstructorInfo(m.Individual));
         };
 
+        this.userProfile = function (dto) {
+            return constructFromDto(dto, new ConstructorInfo(m.IndividualProfile));
+        };
+
     }]);
 
 }).call(this, this.angular, this._);

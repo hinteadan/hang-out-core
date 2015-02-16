@@ -6,6 +6,7 @@
 
         var activityStore = new ds.Store(storeName.activities, storeUrl),
             userStore = new ds.Store(storeName.users, storeUrl),
+            userProfileStore = new ds.Store(storeName.userProfiles, storeUrl),
             validationStore = new ds.Validation(storeUrl);
 
         function tryToBroadcastRealtime(doThis) {
@@ -249,6 +250,33 @@
             });
         }
 
+        function fetchUserProfileViaEmail(email, then) {
+            var query = new ds.queryWithAnd().where('email')(ds.is.EqualTo)(email);
+            userProfileStore.Query(query, function (result) {
+                ///<param name="result" type="ds.OperationResult" />
+                if (angular.isFunction(then)) {
+                    var profile = !result.isSuccess || !result.data.length ? null : map.userProfile(result.data[0].Data);
+                    then.call(result, profile, result.isSuccess, result.reason);
+                }
+            });
+        }
+
+        function createOrUpdateUserProfile(profile, then) {
+            fetchUserProfileViaEmail(profile.email, function (existingProfile) {
+                var entity =  new ds.Entity(profile, profile.meta());
+                if (existingProfile) {
+                    entity.Id = this.data.Id;
+                    entity.CheckTag = this.data.CheckTag;
+                }
+                userProfileStore.Save(entity, function (result) {
+                    ///<param name="result" type="ds.OperationResult" />
+                    if (angular.isFunction(then)) {
+                        then.call(result, profile, result.isSuccess, result.reason);
+                    }
+                });
+            });
+        }
+
         this.activity = as$q(loadActivity);
         this.publishNewActivity = as$q(storeActivity);
         this.activitiesToJoin = as$q(fetchJoinableActivities);
@@ -265,6 +293,8 @@
         this.userViaEmail = as$q(fetchUserByEmail);
         this.queueRegistration = as$q(queueUserForRegistration);
         this.validateRegistration = as$q(validateRegistration);
+
+        this.saveUserProfile = as$q(createOrUpdateUserProfile);
 
     }]);
 

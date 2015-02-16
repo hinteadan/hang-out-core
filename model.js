@@ -70,6 +70,35 @@
         };
     }
 
+    function IndividualProfile(email) {
+        this.email = email || null;
+
+        this.birthday = null;
+        this.country = null;
+        this.city = null;
+        this.gender = null;
+
+        this.set = function (property, value) {
+            this[property] = value;
+            return this;
+        }
+
+        this.meta = function () {
+            return {
+                email: this.email,
+                birthday: this.birthday,
+                country: this.country,
+                city: this.city,
+                gender: this.gender
+            };
+        };
+    }
+    IndividualProfile.gender = {
+        female: 'female',
+        male: 'male',
+        other: 'other'
+    };
+
     function GpsLocation(lat, lng) {
         this.lat = lat || 0;
         this.lng = lng || 0;
@@ -233,6 +262,7 @@
 
     angular.module('hang-out').value('model', {
         Individual: Individual,
+        IndividualProfile: IndividualProfile,
         GpsLocation: GpsLocation,
         Place: Place,
         Activity: Activity
