@@ -8,6 +8,14 @@
         activities: 'h-hang-out-activities',
         users: 'h-hang-out-users',
         userProfiles: 'h-hang-out-user-profiles'
-    });
+    })
+    .service('hangOutRealtime', ['$q', function ($q) {
+        this.isAvailable = function () {
+            return false;
+        };
+        this.bind = function () {
+            return $q.reject('Real-Time API Unavailable');
+        };
+    }]);
 
 }).call(this, this.angular);
