@@ -81,7 +81,7 @@
         this.set = function (property, value) {
             this[property] = value;
             return this;
-        }
+        };
 
         this.meta = function () {
             return {
