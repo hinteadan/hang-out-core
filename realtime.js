@@ -43,6 +43,10 @@
     }
 
     angular.module('hang-out')
+    .constant('realTimeRootPath', 'realtime')
+    .run(['storeUrl', 'realTimeRootPath', function (storeUrl, rootPath) {
+        $('body').append('<script src="' + storeUrl + rootPath + '/hubs" type="text/javascript"></script>');
+    }])
     .service('hangOutRealtime', ['$timeout', '$q', 'storeUrl', 'realTimeRootPath', function ($t, $q, storeUrl, rootPath) {
 
         var realtime = null,
